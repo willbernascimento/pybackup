@@ -1,0 +1,12 @@
+
+# directory
+
+remoto/
+local/
+
+# files
+
+*.txt
+*.js
+
+
