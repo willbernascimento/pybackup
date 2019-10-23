@@ -1,10 +1,5 @@
-
 import os
 from datetime import date
-
-
-def main():
-    rsync_setup()
 
 
 def backup_setup():
@@ -31,18 +26,21 @@ def backup_setup():
     backup_path = os.path.join(dir_destine, backup_name)
     return dir_origin, backup_path
 
-    # print("Path origin: {}\n"
-    #       "Path destino: {}\n"
-    #       "Nome backup: {}\n"
-    #       "Path backup: {}".format(dir_origin, dir_destine, backup_name, backup_path))
-
 
 def rsync_setup():
-    opt_sync = "-Cravzp"
-    opt_exclude = "*.txt"
     dir_origin, backup_path = backup_setup()
-    os.system("rsync {} --exclude {} {} {}".format(opt_sync, opt_exclude, dir_origin, backup_path))
+    opt_sync = "-Cravzp"
+    user_exclude = input("File extension to exclude (ex: '*.txt)': ")
+    opt_exclude = ""
+    if user_exclude == "":
+        os.system("rsync {} {} {}".format(opt_sync, dir_origin, backup_path))
+    else:
+        user_exclude = user_exclude.replace(" ", ",")
+        opt_exclude = user_exclude
+        os.system("rsync {} --exclude={{{}}} {} {}".format(opt_sync, opt_exclude, dir_origin, backup_path))
 
 
 if __name__ == '__main__':
-    main()
+    rsync_setup()
+
+# user_exclude.replace(" ", "','")
